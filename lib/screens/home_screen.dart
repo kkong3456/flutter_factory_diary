@@ -7,6 +7,7 @@ import 'package:flutter_factory_calendar_scheduler/consts/colors.dart';
 import 'package:flutter_factory_calendar_scheduler/database/drift_database.dart';
 import 'package:get_it/get_it.dart';
 
+//이 git버전은 17장 일정관리앱에서 drift를 통해서 단말의 sqlite에 일정을 저장함
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
