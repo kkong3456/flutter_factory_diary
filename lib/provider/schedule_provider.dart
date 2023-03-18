@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_factory_calendar_scheduler/models/schedule_model.dart';
 import 'package:flutter_factory_calendar_scheduler/repository/schedule_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class ScheduleProvider extends ChangeNotifier {
   final ScheduleRepository repository;
@@ -26,22 +27,41 @@ class ScheduleProvider extends ChangeNotifier {
 
   void createSchedule({required ScheduleModel schedule}) async {
     final targetDate = schedule.date;
-    final savedSchedule = await repository.createSchedule(schedule: schedule);
+
+    final uuid = Uuid();
+    final tempId = uuid.v4();
+    final newSchedule = schedule.copyWith(id: tempId);
 
     cache.update(
       targetDate,
       (value) => [
         ...value,
-        schedule.copyWith(
-          id: savedSchedule,
-        ),
+        newSchedule,
       ]..sort(
-          (a, b) => a.startTime.compareTo(
-            b.startTime,
-          ),
+          (a, b) => a.startTime.compareTo(b.startTime),
         ),
-      ifAbsent: () => [schedule],
+      ifAbsent: () => [newSchedule],
     );
+    notifyListeners();
+
+    try {
+      final savedSchedule = await repository.createSchedule(schedule: schedule);
+
+      cache.update(
+          targetDate,
+          (value) => value
+              .map((e) => e.id == tempId
+                  ? e.copyWith(
+                      id: savedSchedule,
+                    )
+                  : e)
+              .toList());
+    } catch (e) {
+      cache.update(
+        targetDate,
+        (value) => value.where((e) => e.id != tempId).toList(),
+      );
+    }
     notifyListeners();
   }
 
@@ -49,7 +69,10 @@ class ScheduleProvider extends ChangeNotifier {
     required DateTime date,
     required String id,
   }) async {
-    final resp = await repository.deleteSchedule(id: id);
+    // 삭제할 일정
+    final targetSchedule = cache[date]!.firstWhere(
+      (e) => e.id == id,
+    );
 
     cache.update(
       date,
@@ -57,6 +80,17 @@ class ScheduleProvider extends ChangeNotifier {
       ifAbsent: () => [],
     );
 
+    notifyListeners();
+
+    try {
+      await repository.deleteSchedule(id: id);
+    } catch (e) {
+      cache.update(
+          date,
+          (value) => [...value, targetSchedule]..sort(
+              (a, b) => a.startTime.compareTo(b.startTime),
+            ));
+    }
     notifyListeners();
   }
 

@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_factory_calendar_scheduler/components/custom_text_field.dart';
 import 'package:flutter_factory_calendar_scheduler/consts/colors.dart';
 import 'package:flutter_factory_calendar_scheduler/database/drift_database.dart';
+import 'package:flutter_factory_calendar_scheduler/models/schedule_model.dart';
+import 'package:flutter_factory_calendar_scheduler/provider/schedule_provider.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   const ScheduleBottomSheet({
@@ -86,7 +89,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                 Container(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: onSavePressed,
+                    onPressed: () => onSavePressed(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PRIMARY_COLOR,
                     ),
@@ -101,18 +104,27 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     );
   }
 
-  void onSavePressed() async {
+  void onSavePressed(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState?.save();
 
-      await GetIt.I<LocalDatabase>().createSchedule(
-        SchedulesCompanion(
-          startTime: Value(startTime),
-          endTime: Value(endTime),
-          content: Value(content),
-          date: Value(widget.selectedDate),
-        ),
-      );
+      // await GetIt.I<LocalDatabase>().createSchedule(
+      //   SchedulesCompanion(
+      //     startTime: Value(startTime),
+      //     endTime: Value(endTime),
+      //     content: Value(content),
+      //     date: Value(widget.selectedDate),
+      //   ),
+      // );
+      context.read<ScheduleProvider>().createSchedule(
+            schedule: ScheduleModel(
+              id: 'new_model',
+              content: content,
+              date: widget.selectedDate,
+              startTime: startTime,
+              endTime: endTime,
+            ),
+          );
     }
     Navigator.of(context).pop();
   }
