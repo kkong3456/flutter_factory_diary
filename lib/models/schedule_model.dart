@@ -17,7 +17,7 @@ class ScheduleModel {
     required Map<String, dynamic> json,
   })  : id = json['id'],
         content = json['content'],
-        date = json['date'],
+        date = DateTime.parse(json['date']),
         startTime = json['startTime'],
         endTime = json['endTime'];
 

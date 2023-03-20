@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter_factory_calendar_scheduler/components/custom_text_field.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_factory_calendar_scheduler/models/schedule_model.dart';
 import 'package:flutter_factory_calendar_scheduler/provider/schedule_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
   const ScheduleBottomSheet({
@@ -116,17 +118,32 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
       //     date: Value(widget.selectedDate),
       //   ),
       // );
-      context.read<ScheduleProvider>().createSchedule(
-            schedule: ScheduleModel(
-              id: 'new_model',
-              content: content,
-              date: widget.selectedDate,
-              startTime: startTime,
-              endTime: endTime,
-            ),
-          );
+
+      final schedule = ScheduleModel(
+        id: Uuid().v4(),
+        content: content,
+        date: widget.selectedDate,
+        startTime: startTime,
+        endTime: endTime,
+      );
+
+      await FirebaseFirestore.instance
+          .collection('schedule')
+          .doc(schedule.id)
+          .set(schedule.toJson());
+
+      // context.read<ScheduleProvider>().createSchedule(
+      //       schedule: ScheduleModel(
+      //         id: 'new_model',
+      //         content: content,
+      //         date: widget.selectedDate,
+      //         startTime: startTime,
+      //         endTime: endTime,
+      //       ),
+      //     );
+
+      Navigator.of(context).pop();
     }
-    Navigator.of(context).pop();
   }
 
   String? timeValidator(String? val) {
