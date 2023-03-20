@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_factory_calendar_scheduler/components/banner_ad_widget.dart';
 import 'package:flutter_factory_calendar_scheduler/components/main_calendar.dart';
 import 'package:flutter_factory_calendar_scheduler/components/schedule_bottom_sheet.dart';
 import 'package:flutter_factory_calendar_scheduler/components/schedule_card.dart';
@@ -90,8 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           json: (e.data() as Map<String, dynamic>)))
                       .toList();
 
-                  return ListView.builder(
+                  return ListView.separated(
                     itemCount: schedules.length,
+                    separatorBuilder: (context, index) {
+                      return BannerAdWidget();
+                    },
                     itemBuilder: (context, index) {
                       log('schedules is $schedules');
                       final schedule = schedules[index];
