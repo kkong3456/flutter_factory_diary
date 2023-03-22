@@ -29,6 +29,49 @@
             {
               "client_id": "695114994326-b7te8m1cgrmp13ognfmaqfdrbob5lnm0.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "695114994326-h70jrk3dlod9j3rt3lhajnloe845eekv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterFactoryCalendarScheduler"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695114994326:android:a2590d957f68c2f4e428b7",
+        "android_client_info": {
+          "package_name": "com.kkong.calendarscheduler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695114994326-b7te8m1cgrmp13ognfmaqfdrbob5lnm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEq2L4yN94M9cozJKffoLopJEt9tMNunQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695114994326-b7te8m1cgrmp13ognfmaqfdrbob5lnm0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "695114994326-h70jrk3dlod9j3rt3lhajnloe845eekv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterFactoryCalendarScheduler"
+              }
             }
           ]
         }

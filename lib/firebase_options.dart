@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDEq2L4yN94M9cozJKffoLopJEt9tMNunQ',
-    appId: '1:695114994326:android:a51af7a17b8efc63e428b7',
+    appId: '1:695114994326:android:a2590d957f68c2f4e428b7',
     messagingSenderId: '695114994326',
     projectId: 'calendar-schedule-kkong',
     storageBucket: 'calendar-schedule-kkong.appspot.com',
