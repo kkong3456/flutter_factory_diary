@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kkong.calendarscheduler">
    <application
-        android:label="flutter_factory_calendar_scheduler"
+        android:label="일정관리앱"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data
